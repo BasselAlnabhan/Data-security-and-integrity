@@ -32,7 +32,7 @@ void print_data(uint8_t *data, uint8_t size)
 response_t send_request(request_t *req)
 {
     complete = true;
-    // memset(req->data + req->length, 0x55, DATA_LENGTH - req->length);
+
     for (uint8_t i = 0; i < MESSAGES; i++)
     {
         rx_messages[i].buf[0] = 0U;
@@ -331,20 +331,26 @@ request_t get_user_request(void)
     case 'C':
         if (sessionID)
             return close_the_session();
+        else
+            Serial.println("You are already out logged!");
         break;
     case 'N':
         if (sessionID)
             return turn_on_led();
+        else
+            Serial.println("You need to log in first!");
         break;
     case 'F':
         if (sessionID)
             return turn_off_led();
+        else
+            Serial.println("You need to log in first!");
         break;
     case 'T':
         if (sessionID)
             return ask_for_temp();
         else
-            Serial.println("You need to loog in first!");
+            Serial.println("You need to log in first!");
         break;
     }
     request_t request = {};
